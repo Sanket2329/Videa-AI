@@ -20,11 +20,11 @@
 ## ✨ Enterprise-Grade Features
 
 *   🎥 **Cinematic UI/UX:** A gorgeous, Netflix-style glassmorphism interface built with Next.js and Tailwind CSS. Features dynamic 3D tilt cards, live video galleries, and seamless asynchronous state transitions.
-*   🧠 **LLM Prompt Enhancement Pipeline:** Simple user prompts are automatically intercepted by **Google Gemini 3.6 Flash**. The LLM intelligently rewrites basic ideas into highly detailed, cinematic prompt structures before hitting the video generator.
+*   🧠 **LLM Prompt Enhancement Pipeline:** Simple user prompts are automatically intercepted by **Google Gemini 3.6 Flash**. The LLM intelligently rewrites basic ideas into highly detailed, cinematic prompt structures before hitting the video generator, guaranteed by **Gemini Structured Outputs** to never fail JSON parsing.
 *   🚀 **State-of-the-Art Video AI:** Powered by the open-source **Wan-AI/Wan2.2-TI2V-5B** model via Hugging Face Serverless Inference.
 *   ⚙️ **Robust Asynchronous Architecture:** A FastAPI backend seamlessly manages asynchronous long-running background tasks. This completely eliminates HTTP timeout bottlenecks commonly found in standard synchronous REST APIs.
 *   🔐 **Secure User Authentication:** Full-stack JWT-based authentication system. Protected routes ensure that video generation and history are securely tied to individual user accounts.
-*   💾 **Production Database:** A fully Dockerized PostgreSQL database meticulously tracks user accounts and the entire video generation lifecycle (**Queued** → **Processing** → **Completed** / **Failed** / **Timeout**).
+*   💾 **Production Database:** A fully Dockerized PostgreSQL database meticulously tracks user accounts and the entire video generation lifecycle (**Queued** → **Processing** → **Completed** / **Failed** / **Timeout**). Users can also securely **delete** their videos from the database via the UI.
 *   🛡️ **Graceful Error Handling:** 360-degree UI/UX protection against empty inputs, API billing limits (e.g., `402 Payment Required`), SSL network drops, and generation timeouts.
 
 ---
