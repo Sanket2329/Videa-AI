@@ -73,7 +73,7 @@ DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/ai_video_studi
 
 # Gemini API Key (Prompt Enhancement)
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.0-flash
+GEMINI_MODEL=gemini-3.6-flash
 
 # Hugging Face Configuration (Video Generation)
 VIDEO_PROVIDER=huggingface
