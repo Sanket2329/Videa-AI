@@ -118,6 +118,8 @@ def create_app() -> FastAPI:
 
     # --- Routes ---
     app.include_router(health.router, prefix="/api/v1")
+    from app.api.routes import auth
+    app.include_router(auth.router, prefix="/api/v1")
     app.include_router(prompts.router, prefix="/api/v1")
     app.include_router(videos.router, prefix="/api/v1")
 

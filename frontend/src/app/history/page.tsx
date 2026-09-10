@@ -1,10 +1,26 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { useVideoHistory } from '@/lib/hooks/useVideoHistory';
 import { ScrollGallery } from '@/components/history/ScrollGallery';
 
 export default function HistoryPage() {
+  const { user, isLoading: authLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, authLoading, router]);
+
   const { historyQuery } = useVideoHistory();
+
+  if (authLoading || !user) {
+    return null;
+  }
 
   if (historyQuery.isLoading) {
     return (

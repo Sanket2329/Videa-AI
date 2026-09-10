@@ -77,6 +77,7 @@ class VideoService:
             duration=duration,
             provider=self._generator.provider_name,
             model=self._generator.model_name,
+            user_id=user_id,
             status="queued",
         )
         video = await self._repo.create(video)

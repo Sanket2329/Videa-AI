@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 export function Navbar() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
+  const { user, logout } = useAuth();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -45,15 +47,32 @@ export function Navbar() {
         >
           Create
         </Link>
-        <Link 
-          href="/history" 
-          className={cn(
-            "text-xs font-medium tracking-widest uppercase transition-all hover:text-white",
-            pathname === '/history' ? "text-white" : "text-white/40"
-          )}
-        >
-          History
-        </Link>
+        {user && (
+          <Link 
+            href="/history" 
+            className={cn(
+              "text-xs font-medium tracking-widest uppercase transition-all hover:text-white",
+              pathname === '/history' ? "text-white" : "text-white/40"
+            )}
+          >
+            History
+          </Link>
+        )}
+        {user ? (
+          <button
+            onClick={logout}
+            className="text-xs font-medium tracking-widest uppercase transition-all text-white/40 hover:text-white"
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="text-xs font-medium tracking-widest uppercase transition-all text-white/40 hover:text-white"
+          >
+            Login
+          </Link>
+        )}
       </nav>
     </motion.header>
   );

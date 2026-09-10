@@ -11,7 +11,8 @@ import uuid
 
 from fastapi import APIRouter, Depends
 
-from app.api.dependencies import get_video_service
+from app.api.dependencies import get_video_service, get_current_user
+from app.models.user import User
 from app.schemas.common import ApiResponse
 from app.schemas.video import (
     VideoDeleteResponse,
@@ -36,6 +37,7 @@ router = APIRouter(prefix="/videos", tags=["Videos"])
 async def generate_video(
     request: VideoGenerateRequest,
     service: VideoService = Depends(get_video_service),
+    current_user: User = Depends(get_current_user),
 ) -> ApiResponse[VideoResponse]:
     video = await service.create_generation(
         prompt=request.prompt,
@@ -44,6 +46,7 @@ async def generate_video(
         style=request.style.value,
         aspect_ratio=request.aspect_ratio.value,
         duration=request.duration.value,
+        user_id=current_user.id,
     )
     response = VideoResponse.model_validate(video, from_attributes=True)
     return ApiResponse.ok(response)

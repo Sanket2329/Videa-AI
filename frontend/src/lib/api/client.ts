@@ -11,12 +11,33 @@ export const apiClient = axios.create({
   },
 });
 
+apiClient.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response?.status === 401) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        if (!window.location.pathname.startsWith('/login')) {
+          window.location.href = '/login';
+        }
+      }
+    }
     // Standardize error format for UI consumption
     if (error.response?.data?.error) {
       return Promise.reject(error.response.data.error);
+    }
+    if (error.response?.data?.detail) {
+        return Promise.reject({ message: error.response.data.detail });
     }
     return Promise.reject({
       code: 'NETWORK_ERROR',

@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
 
+    # --- Authentication ---
+    SECRET_KEY: str = "supersecretkey-change-me-in-production"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
+
     # --- Database ---
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/ai_video_studio"
 

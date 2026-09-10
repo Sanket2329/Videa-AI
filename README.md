@@ -21,7 +21,8 @@
 *   🧠 **LLM Prompt Enhancement Pipeline:** Simple user prompts are automatically intercepted by **Google Gemini 3.6 Flash**. The LLM intelligently rewrites basic ideas into highly detailed, cinematic prompt structures before hitting the video generator.
 *   🚀 **State-of-the-Art Video AI:** Powered by the open-source **Wan-AI/Wan2.2-TI2V-5B** model via Hugging Face Serverless Inference.
 *   ⚙️ **Robust Asynchronous Architecture:** A FastAPI backend seamlessly manages asynchronous long-running background tasks. This completely eliminates HTTP timeout bottlenecks commonly found in standard synchronous REST APIs.
-*   💾 **Production Database:** A fully Dockerized PostgreSQL database meticulously tracks the entire video generation lifecycle (**Queued** → **Processing** → **Completed** / **Failed** / **Timeout**).
+*   🔐 **Secure User Authentication:** Full-stack JWT-based authentication system. Protected routes ensure that video generation and history are securely tied to individual user accounts.
+*   💾 **Production Database:** A fully Dockerized PostgreSQL database meticulously tracks user accounts and the entire video generation lifecycle (**Queued** → **Processing** → **Completed** / **Failed** / **Timeout**).
 *   🛡️ **Graceful Error Handling:** 360-degree UI/UX protection against empty inputs, API billing limits (e.g., `402 Payment Required`), SSL network drops, and generation timeouts.
 
 ---
@@ -110,8 +111,9 @@ docker-compose up --build
 | **Prompt Input** | Clean, validated text box with intelligent error states. | ✅ Complete |
 | **Video Generation** | Hugging Face Serverless API running `Wan-AI/Wan2.2` model. | ✅ Complete |
 | **Display Output** | Beautiful seamless video player with native Download functionality. | ✅ Complete |
-| **History Gallery** | PostgreSQL-backed live background-playing video gallery (Last 5 videos). | ✅ Complete |
+| **History Gallery** | PostgreSQL-backed live background-playing video gallery. | ✅ Complete |
 | **Error Handling** | 360-degree protection: Empty prompts, API timeouts, and Provider failures. | ✅ Complete |
+| *(Bonus)* **User Authentication** | JWT-based login, registration, and protected routes. | 🌟 Complete |
 | *(Bonus)* **Styles** | Dynamically driven by Gemini LLM. | 🌟 Complete |
 | *(Bonus)* **Loading State** | Asynchronous polling state machine with progress indicators. | 🌟 Complete |
 

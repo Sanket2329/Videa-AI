@@ -56,3 +56,48 @@ def get_prompt_service(
 ) -> PromptService:
     """Create a PromptService."""
     return PromptService(settings=settings)
+
+
+from fastapi import HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+import jwt
+from app.models.user import User
+from app.core.security import settings as security_settings
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+
+async def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    session: AsyncSession = Depends(get_db_session),
+) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(
+            token, 
+            security_settings.SECRET_KEY, 
+            algorithms=[security_settings.ALGORITHM]
+        )
+        user_id_str: str = payload.get("sub")
+        if user_id_str is None:
+            raise credentials_exception
+    except jwt.PyJWTError:
+        raise credentials_exception
+        
+    from sqlalchemy import select
+    import uuid
+    
+    try:
+        user_id = uuid.UUID(user_id_str)
+    except ValueError:
+        raise credentials_exception
+        
+    result = await session.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise credentials_exception
+    return user
+

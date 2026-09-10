@@ -12,7 +12,7 @@ from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.core.config import get_settings
-from app.models.video import Base
+from app.models import Base
 
 # Alembic Config object
 config = context.config

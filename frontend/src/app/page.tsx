@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { HeroSection } from '@/components/hero/HeroSection';
 import { PromptEditor } from '@/components/prompt/PromptEditor';
 import { ConfigCards } from '@/components/config/ConfigCards';
@@ -11,6 +13,15 @@ import { useVideoGeneration } from '@/lib/hooks/useVideoGeneration';
 import { AspectRatio, Duration, VideoStyle } from '@/lib/types/video';
 
 export default function Home() {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
   const [prompt, setPrompt] = useState('');
   const [enhancedPrompt, setEnhancedPrompt] = useState<string | null>(null);
   const [negativePrompt, setNegativePrompt] = useState<string | null>(null);
@@ -49,6 +60,10 @@ export default function Home() {
 
   const isGenerating = currentGeneration && !['completed', 'failed', 'timeout', 'cancelled'].includes(currentGeneration.status);
   const hasResult = currentGeneration?.status === 'completed' && (currentGeneration.videoUrl || (currentGeneration as any).video_url);
+
+  if (isLoading || !user) {
+    return null;
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
