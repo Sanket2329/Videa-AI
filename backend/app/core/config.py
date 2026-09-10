@@ -54,13 +54,17 @@ class Settings(BaseSettings):
 
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
-    def parse_cors_origins(cls, v: str | list[str]) -> list[str]:
+    def parse_cors_origins(cls, v: str | list[str] | None) -> list[str]:
+        if not v:
+            return ["*"]
         if isinstance(v, str):
             import json
             try:
                 return json.loads(v)
             except (json.JSONDecodeError, TypeError):
-                return [origin.strip() for origin in v.split(",")]
+                return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return v
+
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
     def parse_database_url(cls, v: str) -> str:
