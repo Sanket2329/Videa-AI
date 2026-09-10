@@ -64,7 +64,8 @@ class HuggingFaceVideoGenerator(VideoGenerator):
                 
             # Update state with the URL path that FastAPI serves
             self._jobs[job_id]["status"] = "completed"
-            self._jobs[job_id]["video_url"] = f"http://localhost:8000/static/videos/{filename}"
+            base_url = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
+            self._jobs[job_id]["video_url"] = f"{base_url}/static/videos/{filename}"
             logger.info("hf_generation_completed", job_id=job_id, filepath=filepath)
             
         except Exception as e:

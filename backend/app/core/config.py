@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     # --- LLM (Prompt Enhancement) ---
     LLM_PROVIDER: str = "gemini"
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-2.0-flash"
+    GEMINI_MODEL: str = "gemini-3.6-flash"
 
     # --- Video Generation ---
     VIDEO_PROVIDER: str = "mock"
