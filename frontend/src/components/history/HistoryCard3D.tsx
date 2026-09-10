@@ -53,15 +53,32 @@ export function HistoryCard3D({ video, className }: { video: VideoGeneration, cl
               <span className="px-2 py-1 rounded-md bg-white/10 backdrop-blur-md text-[9px] font-bold tracking-widest text-white/80">
                 {video.aspect_ratio}
               </span>
+              {video.status !== 'completed' && (
+                <span className={cn(
+                  "px-2 py-1 rounded-md backdrop-blur-md text-[9px] font-bold tracking-widest uppercase",
+                  video.status === 'failed' ? "bg-red-500/20 text-red-200" : "bg-blue-500/20 text-blue-200 animate-pulse"
+                )}>
+                  {video.status}
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 pointer-events-auto">
-              <button 
-                onClick={() => setIsPlaying(true)}
-                className="flex-1 h-10 flex items-center justify-center gap-2 bg-white text-black rounded-xl text-xs font-bold hover:bg-gray-200 transition-colors"
-              >
-                <Play className="w-4 h-4 fill-current" /> PLAY
-              </button>
+              {video.status === 'completed' ? (
+                <button 
+                  onClick={() => setIsPlaying(true)}
+                  className="flex-1 h-10 flex items-center justify-center gap-2 bg-white text-black rounded-xl text-xs font-bold hover:bg-gray-200 transition-colors"
+                >
+                  <Play className="w-4 h-4 fill-current" /> PLAY
+                </button>
+              ) : (
+                <button 
+                  disabled
+                  className="flex-1 h-10 flex items-center justify-center gap-2 bg-white/10 text-white/50 rounded-xl text-xs font-bold cursor-not-allowed"
+                >
+                  {video.status === 'failed' ? 'FAILED' : 'PROCESSING...'}
+                </button>
+              )}
               {video.video_url && (
                 <a 
                   href={video.video_url}
