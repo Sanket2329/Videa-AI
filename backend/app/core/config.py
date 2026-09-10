@@ -41,7 +41,7 @@ class Settings(BaseSettings):
 
     # --- Video Generation ---
     VIDEO_PROVIDER: str = "mock"
-    VIDEO_MODEL: str = "fal-ai/kling-video/v3/pro/text-to-video"
+    VIDEO_MODEL: str = "Wan-AI/Wan2.2-TI2V-5B"
     HF_TOKEN: str = ""
 
     # --- Timeouts & Retries ---
