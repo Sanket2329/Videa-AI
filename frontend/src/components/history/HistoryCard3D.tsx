@@ -2,13 +2,15 @@
 
 import { useTilt } from "@/hooks/useTilt";
 import { VideoGeneration } from "@/lib/types/video";
-import { Play, Download } from "lucide-react";
+import { Play, Download, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useVideoHistory } from "@/lib/hooks/useVideoHistory";
 
 export function HistoryCard3D({ video, className }: { video: VideoGeneration, className?: string }) {
   const tiltRef = useTilt(10, 1.05);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { deleteMutation } = useVideoHistory();
 
   return (
     <div 
@@ -71,6 +73,13 @@ export function HistoryCard3D({ video, className }: { video: VideoGeneration, cl
                   <Download className="w-4 h-4" />
                 </a>
               )}
+              <button 
+                onClick={() => deleteMutation.mutate(video.id)}
+                disabled={deleteMutation.isPending}
+                className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-xl text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </>
