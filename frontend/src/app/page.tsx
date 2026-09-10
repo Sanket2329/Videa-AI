@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   const isGenerating = currentGeneration && !['completed', 'failed', 'timeout', 'cancelled'].includes(currentGeneration.status);
-  const hasResult = currentGeneration?.status === 'completed' && currentGeneration.videoUrl;
+  const hasResult = currentGeneration?.status === 'completed' && (currentGeneration.videoUrl || (currentGeneration as any).video_url);
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -106,7 +106,7 @@ export default function Home() {
         <div className="w-full min-h-screen flex items-center justify-center p-6 mt-20">
           <GenerationState
             status={currentGeneration.status}
-            error={currentGeneration.errorMessage}
+            error={(currentGeneration.errorMessage || (currentGeneration as any).error_message)}
           />
         </div>
       )}
@@ -114,11 +114,11 @@ export default function Home() {
       {hasResult && currentGeneration && (
         <div className="w-full min-h-screen flex items-center justify-center p-6 mt-20">
           <VideoResult
-            videoUrl={currentGeneration.videoUrl!}
-            originalPrompt={currentGeneration.originalPrompt}
-            enhancedPrompt={currentGeneration.enhancedPrompt}
+            videoUrl={(currentGeneration.videoUrl || (currentGeneration as any).video_url)!}
+            originalPrompt={(currentGeneration.originalPrompt || (currentGeneration as any).original_prompt)}
+            enhancedPrompt={(currentGeneration.enhancedPrompt || (currentGeneration as any).enhanced_prompt)}
             style={currentGeneration.style}
-            aspectRatio={currentGeneration.aspectRatio}
+            aspectRatio={(currentGeneration.aspectRatio || (currentGeneration as any).aspect_ratio)}
             duration={currentGeneration.duration}
           />
         </div>
