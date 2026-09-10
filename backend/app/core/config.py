@@ -61,6 +61,14 @@ class Settings(BaseSettings):
                 return json.loads(v)
             except (json.JSONDecodeError, TypeError):
                 return [origin.strip() for origin in v.split(",")]
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def parse_database_url(cls, v: str) -> str:
+        # Render gives postgres:// or postgresql:// URLs. We need to use asyncpg.
+        if v and v.startswith("postgres://"):
+            return v.replace("postgres://", "postgresql+asyncpg://", 1)
+        if v and v.startswith("postgresql://") and not v.startswith("postgresql+asyncpg://"):
+            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
         return v
 
 
