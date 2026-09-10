@@ -16,11 +16,11 @@ class PromptEnhanceRequest(BaseModel):
 class EnhancedPromptData(BaseModel):
     """Structured LLM response for prompt enhancement."""
     enhanced_prompt: str = Field(..., description="The enhanced, video-generation-ready prompt")
-    negative_prompt: str = Field(default="", description="Things to avoid in generation")
-    camera: str = Field(default="", description="Camera movement and lens description")
-    lighting: str = Field(default="", description="Lighting setup description")
-    style: str = Field(default="", description="Visual style description")
-    motion: str = Field(default="", description="Motion and movement description")
+    negative_prompt: str = Field(..., description="Things to avoid in generation")
+    camera: str = Field(..., description="Camera movement and lens description")
+    lighting: str = Field(..., description="Lighting setup description")
+    style: str = Field(..., description="Visual style description")
+    motion: str = Field(..., description="Motion and movement description")
 
 
 class PromptEnhanceResponse(BaseModel):
