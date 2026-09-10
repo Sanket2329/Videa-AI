@@ -9,6 +9,8 @@
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-Wan_2.2-FFD21E?style=for-the-badge&logo=huggingface)](https://huggingface.co/)
 [![Gemini](https://img.shields.io/badge/Google_Gemini-Prompt_Enhancer-4285F4?style=for-the-badge&logo=google)](https://deepmind.google/technologies/gemini/)
 
+**[🚀 Live Demo on Vercel](https://frontend-pi-smoky-38.vercel.app)**
+
 *A highly polished, production-ready AI Video Generation Platform. Built as a full-stack microservice architecture, Videa-AI empowers users to generate stunning cinematic videos from simple text prompts using state-of-the-art open-source diffusion models.*
 
 </div>
@@ -51,10 +53,13 @@
 ## 📝 Design Decisions & Constraints
 
 **Why Hugging Face & Wan 2.2?**
-During research, many premium video APIs (like Kling or Luma) required expensive upfront subscriptions to access their developer endpoints. To build a robust, cost-effective prototype, Videa-AI integrates the open-source **Wan-AI/Wan2.2-TI2V-5B** model via Hugging Face Serverless Inference, funded via a small  credit allocation. 
+During research, many premium video APIs (like Kling or Luma) required expensive upfront subscriptions to access their developer endpoints. To build a robust, cost-effective prototype, Videa-AI integrates the open-source **Wan-AI/Wan2.2-TI2V-5B** model via Hugging Face Serverless Inference, funded via a small credit allocation. 
 
-**Why is it not hosted live on Vercel?**
-While the application is fully Dockerized and inherently ready for cloud production, it is currently not hosted on a public URL. Because the video generation API relies on a strictly limited  budget, leaving the platform publicly accessible would expose the API keys to exhaustion by public traffic. The project is designed to be easily spun up locally via Docker.
+**Cloud Deployment Architecture**
+The application is fully containerized and deployed using modern PaaS solutions:
+- **Frontend**: Next.js App Router deployed on **Vercel** for global edge delivery.
+- **Backend**: FastAPI Docker container deployed on **Render**.
+- **Database**: Fully managed **Render PostgreSQL** instance handling user state and video job queues.
 
 ---
 
@@ -81,7 +86,7 @@ VIDEO_PROVIDER=huggingface
 HF_TOKEN=your_hugging_face_finegrained_token_here
 ```
 
-### 2. Launch the Platform
+### 2. Launch the Platform (Local Setup)
 Start the entire microservice stack (PostgreSQL database, FastAPI backend, and Next.js frontend) with a single command:
 
 ```bash
@@ -89,8 +94,9 @@ docker-compose up --build
 ```
 
 ### 3. Access the Application
-*   **Frontend Web App:** [http://localhost:3000](http://localhost:3000)
-*   **Backend API Docs (Swagger UI):** [http://localhost:8000/docs](http://localhost:8000/docs)
+*   **Live Cloud Deployment:** [https://frontend-pi-smoky-38.vercel.app](https://frontend-pi-smoky-38.vercel.app)
+*   **Local Frontend Web App:** [http://localhost:3000](http://localhost:3000)
+*   **Local Backend API Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
