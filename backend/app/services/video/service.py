@@ -65,7 +65,7 @@ class VideoService:
         4. Update the record with the provider's job ID
         """
         # Duplicate protection
-        if await self._repo.has_active_generation():
+        if await self._repo.has_active_generation(user_id):
             raise DuplicateGenerationError()
 
         # Create the database record
@@ -123,9 +123,9 @@ class VideoService:
 
         return video  # type: ignore[return-value]
 
-    async def get_generation(self, video_id: uuid.UUID) -> Video:
+    async def get_generation(self, video_id: uuid.UUID, user_id: uuid.UUID | None = None) -> Video:
         """Get a video record, refreshing status from the provider if needed."""
-        video = await self._repo.get_by_id(video_id)
+        video = await self._repo.get_by_id(video_id, user_id)
         if video is None:
             raise NotFoundError("Video generation")
 
@@ -135,13 +135,13 @@ class VideoService:
 
         return video
 
-    async def get_history(self, limit: int = 5) -> list[Video]:
-        """Return the most recent video generations."""
-        return await self._repo.get_history(limit=limit)
+    async def get_history(self, user_id: uuid.UUID, limit: int = 5) -> list[Video]:
+        """Return the most recent video generations for a user."""
+        return await self._repo.get_history(user_id=user_id, limit=limit)
 
-    async def delete_generation(self, video_id: uuid.UUID) -> bool:
+    async def delete_generation(self, video_id: uuid.UUID, user_id: uuid.UUID) -> bool:
         """Delete a video generation record."""
-        deleted = await self._repo.delete(video_id)
+        deleted = await self._repo.delete(video_id, user_id)
         if not deleted:
             raise NotFoundError("Video generation")
         return True
