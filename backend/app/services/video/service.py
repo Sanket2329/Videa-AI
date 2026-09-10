@@ -49,6 +49,7 @@ class VideoService:
     async def create_generation(
         self,
         prompt: str,
+        user_id: uuid.UUID,
         *,
         enhanced_prompt: str | None = None,
         negative_prompt: str | None = None,
